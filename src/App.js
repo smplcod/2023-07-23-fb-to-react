@@ -1,77 +1,54 @@
 import React, { useState, useEffect } from "react";
-import firebase from "firebase";
+import { db } from "./firebase";
 
-function App() {
-  const [value1, setValue1] = useState("");
-  const [value2, setValue2] = useState("");
-  const [result, setResult] = useState("Invalid input");
+const App = () => {
+  const [input1, setInput1] = useState("");
+  const [input2, setInput2] = useState("");
+  const [result, setResult] = useState("");
 
   useEffect(() => {
-    const dbRef = firebase.database().ref();
+    const fetchInputs = async () => {
+      const input1Ref = db.ref("/input1");
+      const input2Ref = db.ref("/input2");
 
-    dbRef
-      .child("input1")
-      .get()
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          setValue1(snapshot.val());
-        } else {
-          console.log("No data available");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      const input1Snap = await input1Ref.once("value");
+      const input2Snap = await input2Ref.once("value");
 
-    dbRef
-      .child("input2")
-      .get()
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          setValue2(snapshot.val());
-        } else {
-          console.log("No data available");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      setInput1(input1Snap.val() || "");
+      setInput2(input2Snap.val() || "");
+    };
+
+    fetchInputs();
   }, []);
 
-  useEffect(() => {
-    const val1 = parseFloat(value1);
-    const val2 = parseFloat(value2);
-    if (isNaN(val1) || isNaN(val2)) {
-      setResult("Invalid input");
-    } else {
-      setResult(val1 * val2);
-    }
-  }, [value1, value2]);
-
-  const handleInputChange = (e, field) => {
+  const handleChange = async (e, setInput, inputRef) => {
     const value = e.target.value;
-    if (field === "input1") {
-      setValue1(value);
-    } else {
-      setValue2(value);
+    setInput(value);
+
+    if (!isNaN(value)) {
+      const ref = db.ref(inputRef);
+      await ref.set(value);
+
+      setResult(input1 * input2);
     }
-    firebase
-      .database()
-      .ref("/" + field)
-      .set(value);
   };
 
   return (
     <div>
-      <input value={value1} onChange={(e) => handleInputChange(e, "input1")} />{" "}
+      <input
+        type="text"
+        value={input1}
+        onChange={(e) => handleChange(e, setInput1, "/input1")}
+      />
       X
       <input
-        value={value2}
-        onChange={(e) => handleInputChange(e, "input2")}
-      />{" "}
-      =<span> {result} </span>
+        type="text"
+        value={input2}
+        onChange={(e) => handleChange(e, setInput2, "/input2")}
+      />
+      ={result}
     </div>
   );
-}
+};
 
 export default App;
