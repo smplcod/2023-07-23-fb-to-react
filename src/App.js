@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { getDatabase, ref, onValue, set } from "./firebase";
+import { db, ref } from "./firebase";
+import { onValue, set } from "firebase/database";
 
 const App = () => {
-  const db = getDatabase();
   const [input1, setInput1] = useState("");
   const [input2, setInput2] = useState("");
   const [result, setResult] = useState("");
