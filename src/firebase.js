@@ -4,7 +4,7 @@ import { getDatabase, ref as dbRef } from "firebase/database";
 const firebaseConfig = {
   databaseURL:
     "https://t20230723-22609-default-rtdb.asia-southeast1.firebasedatabase.app/",
-  apiKey: "AIzaSyCVG_Mo3uroHyskBJvT_UBFcq_Gf_RwEm4",
+  apiKey: "AIzaSyCVG_Mo3uroHyskBJvT_UBFcq_Gf-RwEm4",
   authDomain: "t20230723-22609.firebaseapp.com",
   projectId: "t20230723-22609",
   storageBucket: "t20230723-22609.appspot.com",
@@ -16,4 +16,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-export { db, dbRef };
+const getDbRef = (path) => dbRef(db, path);
+
+export { db, getDbRef };

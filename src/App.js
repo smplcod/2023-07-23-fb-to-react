@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { getDatabase, ref, onValue, set } from "firebase/database";
-
-const db = getDatabase();
+import { db, getDbRef } from "./firebase";
+import { onValue, set } from "firebase/database";
 
 const App = () => {
   const [input1, setInput1] = useState("");
@@ -10,20 +9,16 @@ const App = () => {
 
   useEffect(() => {
     const fetchInputs = async () => {
-      const input1Ref = ref(db, "/input1");
-      const input2Ref = ref(db, "/input2");
+      const input1Ref = getDbRef("/input1");
+      const input2Ref = getDbRef("/input2");
 
-      const input1Snap = await onValue(input1Ref, (snapshot) => {
+      onValue(input1Ref, (snapshot) => {
         setInput1(snapshot.val() || "");
       });
 
-      const input2Snap = await onValue(input2Ref, (snapshot) => {
+      onValue(input2Ref, (snapshot) => {
         setInput2(snapshot.val() || "");
       });
-
-      if (!isNaN(input1Snap.val()) && !isNaN(input2Snap.val())) {
-        setResult(input1Snap.val() * input2Snap.val());
-      }
     };
 
     fetchInputs();
@@ -34,7 +29,7 @@ const App = () => {
     setInput(value);
 
     if (!isNaN(value)) {
-      const ref = db.ref(inputRef);
+      const ref = getDbRef(inputRef);
       await set(ref, value);
 
       setResult(input1 * input2);
