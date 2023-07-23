@@ -1,5 +1,5 @@
-import firebase from "firebase/app";
-import "firebase/database";
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref } from "firebase/database";
 
 const firebaseConfig = {
   databaseURL:
@@ -12,7 +12,7 @@ const firebaseConfig = {
   appId: "1:618711784510:web:c01cc15e23ea85f570456f",
 };
 
-// Инициализация Firebase
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
-export default firebase;
+export { db, ref };

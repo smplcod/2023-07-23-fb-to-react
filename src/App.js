@@ -1,33 +1,36 @@
 import React, { useState, useEffect } from "react";
-import { db } from "./firebase";
+import { getDatabase, ref, onValue, set } from "./firebase";
 
 const App = () => {
+  const db = getDatabase();
   const [input1, setInput1] = useState("");
   const [input2, setInput2] = useState("");
   const [result, setResult] = useState("");
 
   useEffect(() => {
     const fetchInputs = async () => {
-      const input1Ref = db.ref("/input1");
-      const input2Ref = db.ref("/input2");
+      const input1Ref = ref(db, "/input1");
+      const input2Ref = ref(db, "/input2");
 
-      const input1Snap = await input1Ref.once("value");
-      const input2Snap = await input2Ref.once("value");
+      onValue(input1Ref, (snapshot) => {
+        setInput1(snapshot.val() || "");
+      });
 
-      setInput1(input1Snap.val() || "");
-      setInput2(input2Snap.val() || "");
+      onValue(input2Ref, (snapshot) => {
+        setInput2(snapshot.val() || "");
+      });
     };
 
     fetchInputs();
-  }, []);
+  }, [db]);
 
-  const handleChange = async (e, setInput, inputRef) => {
+  const handleChange = async (e, setInput, inputRefStr) => {
     const value = e.target.value;
     setInput(value);
 
     if (!isNaN(value)) {
-      const ref = db.ref(inputRef);
-      await ref.set(value);
+      const inputRef = ref(db, inputRefStr);
+      await set(inputRef, value);
 
       setResult(input1 * input2);
     }
