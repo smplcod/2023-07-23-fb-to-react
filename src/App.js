@@ -24,6 +24,12 @@ const App = () => {
     fetchInputs();
   }, []);
 
+  useEffect(() => {
+    if (input1 !== "" && input2 !== "") {
+      setResult(input1 * input2);
+    }
+  }, [input1, input2]);
+
   const handleChange = async (e, setInput, inputRef) => {
     const value = e.target.value;
     setInput(value);
@@ -31,8 +37,6 @@ const App = () => {
     if (!isNaN(value)) {
       const ref = getDbRef(inputRef);
       await set(ref, value);
-
-      setResult(input1 * input2);
     }
   };
 
