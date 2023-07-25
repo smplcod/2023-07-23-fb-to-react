@@ -47,7 +47,7 @@ const App = () => {
         value={input1}
         onChange={(e) => handleChange(e, setInput1, "/input1")}
       />
-      X
+      *
       <input
         type="text"
         value={input2}
