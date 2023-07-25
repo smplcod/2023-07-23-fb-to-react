@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { db, getDbRef } from "./firebase";
+import { getDbRef } from "./firebase";
 import { onValue, set } from "firebase/database";
 
 const App = () => {
