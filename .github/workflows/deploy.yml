@@ -7,6 +7,8 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Change directory
+        run: cd ..
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
