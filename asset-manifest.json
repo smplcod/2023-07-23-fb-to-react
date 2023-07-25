@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/2023-07-23-fb-to-react/static/css/main.e6c13ad2.css",
-    "main.js": "/2023-07-23-fb-to-react/static/js/main.be5d38cb.js",
+    "main.js": "/2023-07-23-fb-to-react/static/js/main.f05f1bde.js",
     "index.html": "/2023-07-23-fb-to-react/index.html",
     "main.e6c13ad2.css.map": "/2023-07-23-fb-to-react/static/css/main.e6c13ad2.css.map",
-    "main.be5d38cb.js.map": "/2023-07-23-fb-to-react/static/js/main.be5d38cb.js.map"
+    "main.f05f1bde.js.map": "/2023-07-23-fb-to-react/static/js/main.f05f1bde.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.be5d38cb.js"
+    "static/js/main.f05f1bde.js"
   ]
 }
